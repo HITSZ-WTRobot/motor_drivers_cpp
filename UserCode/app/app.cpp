@@ -45,9 +45,6 @@ extern "C" void Init(void* argument)
     HAL_TIM_RegisterCallback(&htim6, HAL_TIM_PERIOD_ELAPSED_CB_ID, TIM_Callback_1kHz);
     HAL_TIM_Base_Start_IT(&htim6);
 
-    motor_wheel[0] = new_(motors::DJIMotor,
-                          { .hcan = &hcan1, .type = motors::DJIMotor::Type::M3508_C620, .id1 = 1 });
-
     /* 初始化完成后退出线程 */
     osThreadExit();
 }

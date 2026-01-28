@@ -5,10 +5,10 @@
  */
 #pragma once
 
-#define new_(Type, ...)                                                                            \
+#define new_(expr)                                                                                 \
     (                                                                                              \
-            []() -> Type*                                                                          \
+            []()                                                                                   \
             {                                                                                      \
-                static Type inst(__VA_ARGS__);                                                     \
+                static auto inst = (expr);                                                         \
                 return &inst;                                                                      \
             }())

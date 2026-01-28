@@ -19,8 +19,8 @@ controllers::MotorVelController* motor_wheel_ctrl[4];
 void Chassis_Init()
 {
     using namespace controllers;
-    motor_wheel_ctrl[0] = new_(MotorVelController, motor_wheel[0], cfg);
-    motor_wheel_ctrl[1] = new_(MotorVelController, motor_wheel[1], cfg);
-    motor_wheel_ctrl[2] = new_(MotorVelController, motor_wheel[2], cfg);
-    motor_wheel_ctrl[3] = new_(MotorVelController, motor_wheel[3], cfg);
+    motor_wheel_ctrl[0] = new_(MotorVelController(motor_wheel[0], cfg));
+    motor_wheel_ctrl[1] = new_(MotorVelController(motor_wheel[1], cfg));
+    motor_wheel_ctrl[2] = new_(MotorVelController(motor_wheel[2], cfg));
+    motor_wheel_ctrl[3] = new_(MotorVelController(motor_wheel[3], cfg));
 }
