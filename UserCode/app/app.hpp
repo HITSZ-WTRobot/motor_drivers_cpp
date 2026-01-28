@@ -1,5 +1,5 @@
 /**
- * @file    app.h
+ * @file    app.hpp
  * @author  syhanjin
  * @date    2026-01-28
  */
@@ -8,4 +8,4 @@
 
 /* Includes */
 
-#endif //APP_H
+#endif // APP_H
