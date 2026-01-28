@@ -14,7 +14,7 @@
 
 using namespace motor_if;
 
-std::array<motors::DJIMotor, 4>& motor_wheel();
+extern motors::DJIMotor* motor_wheel[4];
 
 motors::DJIMotor& motor_turnable();
 

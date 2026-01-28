@@ -9,6 +9,6 @@
 
 using namespace motor_if;
 
-auto& motor_wheel_ctrl();
+extern controllers::MotorVelController* motor_wheel_ctrl[4];
 
 #endif // CHASSIS_HPP
