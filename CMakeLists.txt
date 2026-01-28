@@ -12,6 +12,10 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 #Uncomment for hardware floating point
 add_compile_definitions(ARM_MATH_CM4;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING)
 add_compile_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
@@ -19,6 +23,16 @@ add_link_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
 
 add_compile_options(-ffunction-sections -fdata-sections -fno-common -fmessage-length=0)
 
+# disable c++ exceptions and rtti to reduce flash usage
+add_compile_options(
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+)
+# disable cxa_atexit to avoid global/static destructor registration
+# suitable for bare-metal targets without process exit
+add_compile_options(
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit>
+)
 
 
 # Define the build type
@@ -37,7 +51,7 @@ project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Enable CMake support for ASM and C languages
-enable_language(C ASM)
+enable_language(C CXX ASM)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})

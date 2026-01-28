@@ -1,9 +1,9 @@
 /**
- * @file    app.h
+ * @file    app.hpp
  * @author  syhanjin
  * @date    2026-01-28
  */
-#include "app.h"
+#include "app.hpp"
 #include "cmsis_os2.h"
 
 /**
@@ -11,7 +11,7 @@
  * @param argument: Not used
  * @retval None
  */
-void Init(void* argument)
+extern "C" void Init(void* argument)
 {
 	/* 初始化代码 */
 
