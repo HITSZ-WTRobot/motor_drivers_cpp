@@ -1,12 +1,14 @@
-file(GLOB SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.c")
-
-add_library(__CANDriver STATIC ${SRC_FILES})
-
-add_library(bsp::CANDriver ALIAS __CANDriver)
-
-target_include_directories(__CANDriver
-        PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+add_library(BspCANDriver STATIC
+    "./can_driver.c"
 )
 
-target_link_libraries(__CANDriver PUBLIC stm32cubemx)
+target_include_directories(BspCANDriver
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+# link dependencies if any
+target_link_libraries(BspCANDriver PUBLIC stm32cubemx)
+
+# alias for external use
+add_library(bsp::CANDriver ALIAS BspCANDriver)
