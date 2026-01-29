@@ -1,3 +1,4 @@
-namespace = "bsp"
 name = "CANDriver"
-deps = ["stm32cubemx"]
+pkgname = "bsp::CANDriver"
+version = "0.1.0"
+dependencies = ["stm32cubemx"]

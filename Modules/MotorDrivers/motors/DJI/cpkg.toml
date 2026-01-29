@@ -1,3 +1,4 @@
-namespace = "MotorDrivers"
 name = "DJI"
-deps = ["MotorDrivers::Core", "bsp::CANDriver"]
+pkgname = "MotorDrivers::DJI"
+version = "0.1.0"
+dependencies = ["MotorDrivers::Core", "bsp::CANDriver"]

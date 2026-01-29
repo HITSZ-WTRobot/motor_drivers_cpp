@@ -1,11 +1,11 @@
 add_library(MotorDriversController STATIC
-        "./motor_vel_controller.cpp"
-        "./motor_pos_controller.cpp"
+    "./motor_pos_controller.cpp"
+    "./motor_vel_controller.cpp"
 )
 
 target_include_directories(MotorDriversController
-        PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # link dependencies if any

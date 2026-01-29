@@ -1,3 +1,4 @@
-namespace = "bsp"
 name = "GPIO_Driver"
-deps = ["stm32cubemx"]
+pkgname = "bsp::GPIO_Driver"
+version = "0.1.0"
+dependencies = ["stm32cubemx"]
