@@ -7,14 +7,14 @@
  * Detailed description (optional).
  *
  */
-#ifndef DJI_HPP
-#define DJI_HPP
+#pragma once
 
 #define CAN_NUM (2)
 
-#include "interfaces/motor_if.hpp"
+#include "can_driver.h"
+#include "motor_if.hpp"
 
-namespace motor_if::motors
+namespace motors
 {
 
 class DJIMotor final : public IMotor
@@ -99,9 +99,7 @@ private:
     int16_t iq_cmd_ = 0; //< 电流指令值
 };
 
-} // namespace motor_if::motors
+} // namespace motors
 
 void DJI_CAN_Fifo0ReceiveCallback(CAN_HandleTypeDef* hcan);
 void DJI_CAN_Fifo1ReceiveCallback(CAN_HandleTypeDef* hcan);
-
-#endif // DJI_HPP

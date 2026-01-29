@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#define new_(expr)                                                                                 \
+#define static_new(expr)                                                                           \
     (                                                                                              \
             []()                                                                                   \
             {                                                                                      \

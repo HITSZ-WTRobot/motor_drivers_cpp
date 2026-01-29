@@ -5,11 +5,7 @@
  */
 #ifndef I_MOTOR_HPP
 #define I_MOTOR_HPP
-
-#include "main.h"
-
-namespace motor_if
-{
+#include <cassert>
 
 namespace motors
 {
@@ -145,16 +141,16 @@ protected:
             switch (ctrl_mode)
             {
             case ControlMode::ExternalPID:
-                assert_param(motor_->supportsCurrent());
+                assert(motor_->supportsCurrent());
                 ctrl_mode_ = ControlMode::ExternalPID;
                 break;
             case ControlMode::InternalVelocity:
                 // 我们充分相信用户能决定好控制模式，如果用户决定的不对，就应该报错，而不是兼容
-                assert_param(motor_->supportsInternalVelocity());
+                assert(motor_->supportsInternalVelocity());
                 ctrl_mode_ = ControlMode::InternalVelocity;
                 break;
             case ControlMode::InternalVelPos:
-                assert_param(motor_->supportsInternalPosition());
+                assert(motor_->supportsInternalPosition());
                 ctrl_mode_ = ControlMode::InternalVelPos;
                 break;
             default:;
@@ -169,7 +165,5 @@ private:
 };
 
 } // namespace controllers
-
-} // namespace motor_if
 
 #endif // I_MOTOR_HPP

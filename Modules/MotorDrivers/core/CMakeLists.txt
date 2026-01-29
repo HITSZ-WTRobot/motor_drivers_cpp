@@ -1,0 +1,3 @@
+add_library(__MotorDrivers_Core INTERFACE)
+add_library(MotorDrivers::Core ALIAS __MotorDrivers_Core)
+target_include_directories(__MotorDrivers_Core INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

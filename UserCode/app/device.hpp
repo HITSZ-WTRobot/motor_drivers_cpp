@@ -9,10 +9,8 @@
  */
 #ifndef DEVICE_HPP
 #define DEVICE_HPP
-#include "drivers/dji.hpp"
+#include "dji.hpp"
 #include <array>
-
-using namespace motor_if;
 
 extern motors::DJIMotor* motor_wheel[4];
 

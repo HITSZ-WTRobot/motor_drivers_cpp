@@ -16,18 +16,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-#Uncomment for hardware floating point
-add_compile_definitions(ARM_MATH_CM4;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING)
-add_compile_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
-add_link_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
-
 add_compile_options(-ffunction-sections -fdata-sections -fno-common -fmessage-length=0)
 
-# disable c++ exceptions and rtti to reduce flash usage
-add_compile_options(
-        $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
-        $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
-)
 # disable cxa_atexit to avoid global/static destructor registration
 # suitable for bare-metal targets without process exit
 add_compile_options(
@@ -36,9 +26,9 @@ add_compile_options(
 
 
 # Define the build type
-if(NOT CMAKE_BUILD_TYPE)
+if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
-endif()
+endif ()
 
 # Set the project name
 set(CMAKE_PROJECT_NAME motor_drivers_cpp)
@@ -61,25 +51,25 @@ add_subdirectory(cmake/stm32cubemx)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined library search paths
+        # Add user defined library search paths
 )
 
 # Add sources to executable
 file(GLOB_RECURSE SOURCES "UserCode/*.*")
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
-    ${SOURCES}
+        # Add user sources here
+        ${SOURCES}
 )
 
 # Add include paths
 include_directories(UserCode)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined include paths
+        # Add user defined include paths
 )
 
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined symbols
+        # Add user defined symbols
 )
 
 # Remove wrong libob.a library dependency when using cpp files
@@ -90,11 +80,17 @@ list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 # e.g.
 #add_subdirectory(library/motor_drivers/UserCode)
 
+add_subdirectory(Modules/BasicComponents)
+add_subdirectory(Modules/MotorDrivers)
+
 # =======================================================
 
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
-    stm32cubemx
+        stm32cubemx
+        MotorDrivers::DJI
+        MotorDrivers::Controller
+        bsp::CANDriver
 
-    # Add user defined libraries
+        # Add user defined libraries
 )

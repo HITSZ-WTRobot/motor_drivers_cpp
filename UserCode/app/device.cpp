@@ -9,18 +9,18 @@
  */
 #include "device.hpp"
 #include "can.h"
-#include "init-macros.hpp"
+#include "macros.hpp"
 
 motors::DJIMotor* motor_wheel[4];
 
 void Device_Init()
 {
-    motor_wheel[0] = new_(motors::DJIMotor(
+    motor_wheel[0] = static_new(motors::DJIMotor(
             { .hcan = &hcan1, .type = motors::DJIMotor::Type::M3508_C620, .id1 = 1 }));
-    motor_wheel[1] = new_(motors::DJIMotor(
+    motor_wheel[1] = static_new(motors::DJIMotor(
             { .hcan = &hcan1, .type = motors::DJIMotor::Type::M3508_C620, .id1 = 2 }));
-    motor_wheel[2] = new_(motors::DJIMotor(
+    motor_wheel[2] = static_new(motors::DJIMotor(
             { .hcan = &hcan1, .type = motors::DJIMotor::Type::M3508_C620, .id1 = 3 }));
-    motor_wheel[3] = new_(motors::DJIMotor(
+    motor_wheel[3] = static_new(motors::DJIMotor(
             { .hcan = &hcan1, .type = motors::DJIMotor::Type::M3508_C620, .id1 = 4 }));
 }

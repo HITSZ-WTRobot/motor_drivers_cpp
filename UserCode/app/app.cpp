@@ -10,13 +10,8 @@
 #include "cmsis_os2.h"
 #include "device.hpp"
 #include "tim.h"
-#include "drivers/dji.hpp"
-#include <bsp/can_driver.h>
-
-using namespace motor_if;
-#define init(_)
-
-#include "init-macros.hpp"
+#include "dji.hpp"
+#include "can_driver.h"
 
 extern "C" void TIM_Callback_1kHz(TIM_HandleTypeDef* htim)
 {
@@ -44,6 +39,21 @@ extern "C" void Init(void* argument)
 
     HAL_TIM_RegisterCallback(&htim6, HAL_TIM_PERIOD_ELAPSED_CB_ID, TIM_Callback_1kHz);
     HAL_TIM_Base_Start_IT(&htim6);
+
+    // enable controllers
+    for (auto& ctrl : motor_wheel_ctrl)
+        if (!ctrl->enable())
+            Error_Handler();
+
+    float a = 2.0f;
+    for (;;)
+    {
+        a += 1;
+        motor_wheel_ctrl[0]->setRef(100.0f + a);
+        osDelay(1000);
+        motor_wheel_ctrl[0]->setRef(0.0f);
+        osDelay(1000);
+    }
 
     /* 初始化完成后退出线程 */
     osThreadExit();

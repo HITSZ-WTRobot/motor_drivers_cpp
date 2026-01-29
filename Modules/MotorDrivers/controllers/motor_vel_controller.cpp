@@ -5,7 +5,7 @@
  */
 #include "motor_vel_controller.hpp"
 
-namespace motor_if::controllers
+namespace controllers
 {
 MotorVelController::MotorVelController(motors::IMotor* motor, const Config& cfg) :
     IController(motor, cfg.ctrl_mode), pid_(cfg.pid)
@@ -47,4 +47,4 @@ void MotorVelController::setRef(const float& velocity)
     }
 }
 
-} // namespace motor_if::controllers
+} // namespace controllers

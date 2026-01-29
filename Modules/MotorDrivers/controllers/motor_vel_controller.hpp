@@ -6,10 +6,10 @@
  */
 #ifndef MOTOR_VEL_CONTROLLER_HPP
 #define MOTOR_VEL_CONTROLLER_HPP
-#include "interfaces/motor_if.hpp"
-#include "libs/pid_motor.hpp"
+#include "motor_if.hpp"
+#include "pid_motor.hpp"
 
-namespace motor_if::controllers
+namespace controllers
 {
 
 class MotorVelController final : public IController
@@ -32,6 +32,6 @@ private:
     float    velocity_target_ = 0.0f;
 };
 
-} // namespace motor_if::controllers
+} // namespace controllers
 
 #endif // MOTOR_VEL_CONTROLLER_HPP

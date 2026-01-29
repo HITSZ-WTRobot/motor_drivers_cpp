@@ -9,12 +9,12 @@
  */
 #ifndef MOTOR_POS_CONTROLLER_HPP
 #define MOTOR_POS_CONTROLLER_HPP
-#include "interfaces/motor_if.hpp"
-#include "libs/pid_motor.hpp"
+#include "motor_if.hpp"
+#include "pid_motor.hpp"
 
 #include <cstdint>
 
-namespace motor_if::controllers
+namespace controllers
 {
 
 class MotorPosController final : public IController
@@ -45,6 +45,6 @@ private:
     uint32_t pos_vel_freq_ratio_;
 };
 
-} // namespace motor_if::controllers
+} // namespace controllers
 
 #endif // MOTOR_POS_CONTROLLER_HPP

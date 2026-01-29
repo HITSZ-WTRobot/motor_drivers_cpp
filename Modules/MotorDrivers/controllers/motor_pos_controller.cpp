@@ -5,7 +5,7 @@
  */
 #include "motor_pos_controller.hpp"
 
-namespace motor_if::controllers
+namespace controllers
 {
 MotorPosController::MotorPosController(motors::IMotor* motor, const Config& cfg) :
     IController(motor, cfg.ctrl_mode), position_pid_(cfg.position_pid),
@@ -54,4 +54,4 @@ void MotorPosController::update()
     motor_->setCurrent(output);
 }
 
-} // namespace motor_if::controllers
+} // namespace controllers

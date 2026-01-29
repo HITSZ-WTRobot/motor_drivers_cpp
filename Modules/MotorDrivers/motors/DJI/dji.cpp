@@ -8,11 +8,11 @@
  *
  */
 #include "dji.hpp"
-#include "bsp/can_driver.h"
+#include "can_driver.h"
 #include <array>
 #include <cstdint>
 
-namespace motor_if::motors
+namespace motors
 {
 
 constexpr size_t kMaxMotorPerCan = 8;
@@ -274,4 +274,4 @@ extern "C" void DJI_CAN_Fifo1ReceiveCallback(CAN_HandleTypeDef* hcan)
     } while (HAL_CAN_GetRxFifoFillLevel(hcan, CAN_RX_FIFO1) > 0);
 }
 
-} // namespace motor_if::motors
+} // namespace motors
