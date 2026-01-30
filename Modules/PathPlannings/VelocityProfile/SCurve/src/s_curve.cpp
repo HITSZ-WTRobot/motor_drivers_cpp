@@ -7,13 +7,18 @@
 
 #include <cmath>
 
-SCurve::SCurveAccel::SCurveAccel() :
+namespace velocity_profile
+{
+SCurveProfile::SCurveAccel::SCurveAccel() :
     has_uniform_(false), vs_(0), jm_(0), total_time_(0), total_distance_(0), t1_(0), x1_(0), v1_(0),
     t2_(0), x2_(0), v2_(0), ap_(0), vp_(0)
 {
 }
 
-void SCurve::SCurveAccel::init(const float vs, const float vp, const float am, const float jm)
+void SCurveProfile::SCurveAccel::init(const float vs,
+                                      const float vp,
+                                      const float am,
+                                      const float jm)
 {
     has_uniform_ = jm * (vp - vs) > am * am;
     vs_          = vs;
@@ -54,7 +59,7 @@ void SCurve::SCurveAccel::init(const float vs, const float vp, const float am, c
         total_distance_ = (vs + vp) * sqrtf((vp - vs) / jm);
     }
 }
-float SCurve::SCurveAccel::getDistance(const float t) const
+float SCurveProfile::SCurveAccel::getDistance(const float t) const
 {
     if (t <= 0)
     {
@@ -77,8 +82,7 @@ float SCurve::SCurveAccel::getDistance(const float t) const
     }
     return total_distance_;
 }
-
-float SCurve::SCurveAccel::getVelocity(const float t) const
+float SCurveProfile::SCurveAccel::getVelocity(const float t) const
 {
     if (t <= 0)
     {
@@ -99,8 +103,7 @@ float SCurve::SCurveAccel::getVelocity(const float t) const
     }
     return vp_;
 }
-
-float SCurve::SCurveAccel::getAcceleration(const float t) const
+float SCurveProfile::SCurveAccel::getAcceleration(const float t) const
 {
     if (t <= 0)
         return 0;
@@ -113,19 +116,9 @@ float SCurve::SCurveAccel::getAcceleration(const float t) const
     return 0;
 }
 
-SCurve::SCurve() :
-    has_const_(false), direction_(0), vp_(0), vs_(0), as_(0), jm_(0), t0_(0), x0_(0), xs_(0),
-    x1_(0), x2_(0), xe_(0), ts1_(0), xs1_(0), t1_(0), t2_(0), total_time_(0)
+SCurveProfile::SCurveProfile(const Config& cfg, float xs, float vs, float as, float xe)
 {
-#ifdef DEBUG
-    binary_search_count_ = 0;
-#endif
-}
-
-SCurve::Result SCurve::init(
-        const float xs, const float xe, float vs, float as, float vm, float am, float jm)
-{
-    vm = fabsf(vm), am = fabsf(am), jm = fabsf(jm);
+    auto vm = fabsf(cfg.vm), am = fabsf(cfg.am), jm = fabsf(cfg.jm);
 
     // 全部归到正向移动判断
     const float dir = xe > xs ? 1.0f : -1.0f;
@@ -145,11 +138,16 @@ SCurve::Result SCurve::init(
         has_const_  = false;
         t2_         = 0;
         total_time_ = 0;
+        success_    = true;
+        return;
     }
 
     if (fabsf(vs) > vm || fabsf(as) > am)
+    {
         // 如果初速度或者初加速度超限，则生成失败
-        return Result::Failed;
+        success_ = false;
+        return;
+    }
 
     // 首先假定存在匀速段
     const float vp = vm;
@@ -166,7 +164,10 @@ SCurve::Result SCurve::init(
         vs0 = vs - 0.5f * as * as / jm;
         // 已经超限则无法构建曲线
         if (fabsf(vs0) > vm)
-            return Result::Failed;
+        {
+            success_ = false;
+            return;
+        }
         vp_min = vs0;
 
         const float ts0 = -as / jm;
@@ -188,8 +189,11 @@ SCurve::Result SCurve::init(
         x0_    = xs;
         // 构造带偏移的梯形加速
         if (vm < vp_min)
+        {
             // 即使 vp = vm 也无法构造出带偏移的梯形加速
-            return Result::Failed;
+            success_ = false;
+            return;
+        }
         ts1 = as / jm;
         vs1 = vs - 0.5f * as * ts1;
     }
@@ -222,7 +226,9 @@ SCurve::Result SCurve::init(
             x2_ = x1_ + direction_ * x_const;
 
             vp_ = vm;
-            return Result::Success;
+
+            success_ = true;
+            return;
         }
     }
     // 不存在匀速段，求最大速度
@@ -259,7 +265,8 @@ SCurve::Result SCurve::init(
     if (delta_d > S_CURVE_MAX_BS_ERROR)
     {
         // 即使 vp 降到最低也无法找到解
-        return Result::Failed;
+        success_ = false;
+        return;
     }
 
     has_const_ = false;
@@ -273,11 +280,14 @@ SCurve::Result SCurve::init(
     x2_ = x1_;
 
     vp_ = r;
-    return Result::Success;
+
+    success_ = true;
 }
 
-float SCurve::CalcX(const float t) const
+float SCurveProfile::CalcX(const float t) const
 {
+    if (!success_)
+        return 0;
     // 起始之前
     if (t <= 0)
         return xs_;
@@ -300,8 +310,10 @@ float SCurve::CalcX(const float t) const
     return xe_;
 }
 
-float SCurve::CalcV(const float t) const
+float SCurveProfile::CalcV(const float t) const
 {
+    if (!success_)
+        return 0;
     // 起始之前
     if (t <= 0)
         return direction_ * vs_;
@@ -320,8 +332,10 @@ float SCurve::CalcV(const float t) const
     return 0;
 }
 
-float SCurve::CalcA(const float t) const
+float SCurveProfile::CalcA(const float t) const
 {
+    if (!success_)
+        return 0;
     // 起始之前
     if (t <= 0)
         return direction_ * as_;
@@ -339,3 +353,4 @@ float SCurve::CalcA(const float t) const
         return -direction_ * process3_.getAcceleration(total_time_ - t);
     return 0;
 }
+} // namespace velocity_profile

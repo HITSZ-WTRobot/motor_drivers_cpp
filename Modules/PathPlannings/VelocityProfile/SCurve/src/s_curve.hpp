@@ -6,28 +6,33 @@
 #ifndef S_CURVE_HPP
 #define S_CURVE_HPP
 #include <cstdint>
+#include "IVelocityProfile.hpp"
 
 // 最大二分查找误差
 #ifndef S_CURVE_MAX_BS_ERROR
 #    define S_CURVE_MAX_BS_ERROR (0.001f)
 #endif
 
-class SCurve
+namespace velocity_profile
+{
+
+class SCurveProfile final : public IVelocityProfile
 {
 public:
-    enum class Result
+    struct Config
     {
-        Success = 0U,
-        Failed,
+        float vm;
+        float am;
+        float jm;
     };
 
-    SCurve();
+    SCurveProfile::SCurveProfile(const Config& cfg, float xs, float vs, float as, float xe);
 
-    Result init(float xs, float xe, float vs, float as, float vm, float am, float jm);
-    float  CalcX(float t) const;
-    float  CalcV(float t) const;
-    float  CalcA(float t) const;
-    float  getTotalTime() const { return total_time_; }
+    float CalcX(float t) const override;
+    float CalcV(float t) const override;
+    float CalcA(float t) const override;
+    float getTotalTime() const override { return total_time_; }
+    bool  success() const override { return success_; }
 
 private:
     class SCurveAccel
@@ -59,6 +64,8 @@ private:
         float ap_;
         float vp_;
     };
+
+    bool success_;
 
     bool  has_const_; ///< 是否有匀速段
     float direction_; ///< 运行方向
@@ -92,4 +99,5 @@ private:
 #endif
 };
 
+} // namespace velocity_profile
 #endif // S_CURVE_HPP
