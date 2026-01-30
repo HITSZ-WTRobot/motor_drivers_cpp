@@ -16,6 +16,8 @@ extern motors::DJIMotor* motor_wheel[4];
 
 extern motors::DJIMotor* motor_elev[2];
 
+extern motors::DJIMotor* motor_test;
+
 void Device_Init();
 
 #endif // DEVICE_HPP
