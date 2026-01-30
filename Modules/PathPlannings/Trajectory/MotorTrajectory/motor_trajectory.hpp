@@ -8,8 +8,7 @@
 #include "motor_vel_controller.hpp"
 #include "pid_pd.hpp"
 #include "s_curve.hpp"
-
-#include <array>
+#include "cstddef"
 
 namespace trajectory
 {
@@ -17,9 +16,7 @@ namespace trajectory
 template <size_t MotorNum> class MotorTrajectory
 {
 public:
-    typedef std::array<controllers::MotorVelController*, MotorNum> MotorControllerList;
-
-    MotorTrajectory(MotorControllerList&                    motor_controllers,
+    MotorTrajectory(controllers::MotorVelController*        motor_controllers[MotorNum],
                     velocity_profile::SCurveProfile::Config profile_cfg,
                     const PD::Config&                       error_pd_cfg);
 
@@ -58,18 +55,21 @@ public:
     bool locked() const { return lock_; }
 
 private:
-    bool                     enabled_{ false };
-    bool                     lock_{ false };
-    bool                     stopped_{ true };
-    MotorControllerList      ctrl_;
-    std::array<PD, MotorNum> pd_{};
-    float                    now_{ 0 };
+    bool enabled_{ false };
+    bool lock_{ false };
+    bool stopped_{ true };
+
+    controllers::MotorVelController* ctrl_[MotorNum];
+
+    PD pd_[MotorNum]{};
 
     velocity_profile::SCurveProfile::Config profile_cfg_;
     velocity_profile::SCurveProfile         profile_;
 
     float p_ref_curr_{ 0 };
     float v_ref_curr_{ 0 };
+
+    float now_{ 0 };
 };
 
 } // namespace trajectory

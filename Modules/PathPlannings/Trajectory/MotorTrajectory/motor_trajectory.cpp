@@ -9,9 +9,10 @@ namespace trajectory
 {
 
 template <size_t MotorNum>
-MotorTrajectory<MotorNum>::MotorTrajectory(MotorControllerList& motor_controllers,
-                                           velocity_profile::SCurveProfile::Config profile_cfg,
-                                           const PD::Config&                       error_pd_cfg) :
+MotorTrajectory<MotorNum>::MotorTrajectory(
+        controllers::MotorVelController*        motor_controllers[MotorNum],
+        velocity_profile::SCurveProfile::Config profile_cfg,
+        const PD::Config&                       error_pd_cfg) :
     ctrl_(motor_controllers), profile_cfg_(profile_cfg), profile_(profile_cfg, 0, 0, 0, 0)
 {
     for (auto& pd : pd_)
