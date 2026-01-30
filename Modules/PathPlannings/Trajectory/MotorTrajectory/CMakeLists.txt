@@ -1,16 +1,13 @@
-add_library(TrajectoryMotorTrajectory STATIC
-    "./motor_trajectory.cpp"
-)
+add_library(__Trajectory_MotorTrajectory INTERFACE)
 
-target_include_directories(TrajectoryMotorTrajectory
-    PUBLIC
+target_include_directories(__Trajectory_MotorTrajectory INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # link dependencies if any
-target_link_libraries(TrajectoryMotorTrajectory PUBLIC VelocityProfile::SCurve)
-target_link_libraries(TrajectoryMotorTrajectory PUBLIC MotorDrivers::Controller)
-target_link_libraries(TrajectoryMotorTrajectory PUBLIC libs::PID_PD)
+target_link_libraries(__Trajectory_MotorTrajectory INTERFACE VelocityProfile::SCurve)
+target_link_libraries(__Trajectory_MotorTrajectory INTERFACE MotorDrivers::Controller)
+target_link_libraries(__Trajectory_MotorTrajectory INTERFACE libs::PID_PD)
 
 # alias for external use
-add_library(Trajectory::MotorTrajectory ALIAS TrajectoryMotorTrajectory)
+add_library(Trajectory::MotorTrajectory ALIAS __Trajectory_MotorTrajectory)
