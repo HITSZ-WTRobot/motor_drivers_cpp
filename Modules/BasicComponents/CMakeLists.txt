@@ -7,3 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(bsp/can_driver)
 add_subdirectory(libs/pid_motor)
+add_subdirectory(libs/pid_pd)
+add_subdirectory(libs/mit_pd)
+add_subdirectory(libs/printf)
