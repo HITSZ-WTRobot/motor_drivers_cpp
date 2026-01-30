@@ -86,12 +86,12 @@ private:
     service::Watchdog watchdog_;
     struct
     {
-        float mech_angle; //< 单圈机械角度 (unit: degree)
-        float rpm;        //< 转速
+        float mech_angle{ 0 }; //< 单圈机械角度 (unit: degree)
+        float rpm{ 0 };        //< 转速
         // float current; //< 电流大小
         // float temperature; //< 温度
 
-        int32_t round_cnt; //< 圈数
+        int32_t round_cnt{ 0 }; //< 圈数
     } feedback_{};
 
     /* Data */

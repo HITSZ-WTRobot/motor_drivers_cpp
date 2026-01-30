@@ -158,7 +158,7 @@ void DJIMotor::decode(const uint8_t data[8])
 
     const float feedback_angle = static_cast<float>(read_int16(&data[0])) * 360.0f / 8192.0f;
 
-    const float feedback_rpm = read_int16(&data[1]);
+    const float feedback_rpm = read_int16(&data[2]);
 
     // TODO: 堵转电流检测
     // const float feedback_current = (float)((int16_t)data[4] << 8 | data[5]) / 16384.0f * 20.0f;
