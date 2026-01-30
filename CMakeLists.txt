@@ -82,6 +82,7 @@ list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 
 add_subdirectory(Modules/BasicComponents)
 add_subdirectory(Modules/MotorDrivers)
+add_subdirectory(Modules/PathPlannings)
 
 # =======================================================
 
@@ -91,6 +92,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         MotorDrivers::DJI
         MotorDrivers::Controller
         bsp::CANDriver
+        VelocityProfile::SCurve
+        Trajectory::MotorTrajectory
 
         # Add user defined libraries
 )
