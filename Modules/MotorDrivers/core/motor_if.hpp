@@ -102,7 +102,7 @@ public:
             }
             else
             {
-                enabled_ = true;
+                enabled_ = false;
             }
         }
         return enabled_;
