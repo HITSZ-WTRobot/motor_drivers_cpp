@@ -20,6 +20,7 @@ public:
         float abs_output_max{ 0.0f };
     };
 
+    MITPD() = default;
     explicit MITPD(const Config& cfg) : cfg_(cfg) {}
 
     float calc(const float& p_ref, const float& p_fdb, const float& v_ref, const float& v_fdb);
@@ -29,7 +30,7 @@ public:
     float getOutput() const { return output_; }
 
 private:
-    Config cfg_;
+    Config cfg_{};
 
     float p_ref_  = 0.0f;
     float p_fdb_  = 0.0f;

@@ -18,6 +18,7 @@ public:
         float abs_output_max; //< 输出限幅
     };
 
+    PIDMotor() = default;
     explicit PIDMotor(const Config& cfg) : cfg_(cfg) {}
 
     float calc(const float& ref, const float& fdb);
@@ -28,7 +29,7 @@ public:
     float getOutput() const { return output_; }
 
 private:
-    Config cfg_;
+    Config cfg_{};
 
     float fdb_ = 0; //< 反馈量
 

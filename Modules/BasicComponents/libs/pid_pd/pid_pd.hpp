@@ -37,6 +37,7 @@ public:
         float abs_output_max{ 0.0f };
     };
 
+    PD() = default;
     explicit PD(const Config& cfg) : cfg_(cfg) {}
 
     float calc(const float& ref, const float& fdb);
