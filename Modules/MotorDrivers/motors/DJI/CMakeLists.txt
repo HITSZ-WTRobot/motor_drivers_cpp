@@ -10,6 +10,7 @@ target_include_directories(MotorDriversDJI
 # link dependencies if any
 target_link_libraries(MotorDriversDJI PUBLIC MotorDrivers::Core)
 target_link_libraries(MotorDriversDJI PUBLIC bsp::CANDriver)
+target_link_libraries(MotorDriversDJI PUBLIC services::Watchdog)
 
 # alias for external use
 add_library(MotorDrivers::DJI ALIAS MotorDriversDJI)

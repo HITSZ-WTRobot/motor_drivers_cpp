@@ -13,6 +13,7 @@
 
 #include "can_driver.h"
 #include "motor_if.hpp"
+#include "watchdog.hpp"
 
 namespace motors
 {
@@ -52,6 +53,7 @@ public:
     void  resetAngle() override;
 
     void decode(const uint8_t data[8]);
+    bool isConnected() const { return watchdog_.isFed(); }
 
     controllers::ControlMode defaultControlMode() const override
     {
@@ -80,7 +82,8 @@ private:
     float inv_reduction_rate_; ///< 减速比
 
     /* Feedback */
-    uint32_t feedback_count_ = 0; //< 接收到的反馈数据数量
+    uint32_t          feedback_count_ = 0; //< 接收到的反馈数据数量
+    service::Watchdog watchdog_;
     struct
     {
         float mech_angle; //< 单圈机械角度 (unit: degree)

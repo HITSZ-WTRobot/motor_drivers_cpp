@@ -154,6 +154,8 @@ static int16_t read_int16(const uint8_t data[2])
 
 void DJIMotor::decode(const uint8_t data[8])
 {
+    watchdog_.feed();
+
     const float feedback_angle = static_cast<float>(read_int16(&data[0])) * 360.0f / 8192.0f;
 
     const float feedback_rpm = read_int16(&data[1]);
