@@ -1,3 +1,6 @@
 [submodule "Modules/BasicComponents"]
 	path = Modules/BasicComponents
 	url = git@github.com:HITSZ-WTRobot-Packages/BasicComponents.git
+[submodule "Modules/MotorDrivers"]
+	path = Modules/MotorDrivers
+	url = git@github.com:HITSZ-WTRobot-Packages/MotorDrivers.git
