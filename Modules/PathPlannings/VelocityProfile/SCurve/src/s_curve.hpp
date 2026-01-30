@@ -26,7 +26,7 @@ public:
         float jm;
     };
 
-    SCurveProfile::SCurveProfile(const Config& cfg, float xs, float vs, float as, float xe);
+    SCurveProfile(const Config& cfg, float xs, float vs, float as, float xe);
 
     float CalcX(float t) const override;
     float CalcV(float t) const override;
