@@ -14,7 +14,7 @@
 
 extern motors::DJIMotor* motor_wheel[4];
 
-motors::DJIMotor& motor_turnable();
+extern motors::DJIMotor* motor_elev[2];
 
 void Device_Init();
 
