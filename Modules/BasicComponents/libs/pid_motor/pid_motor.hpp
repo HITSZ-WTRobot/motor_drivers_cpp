@@ -21,8 +21,8 @@ public:
     explicit PIDMotor(const Config& cfg) : cfg_(cfg) {}
 
     float calc(const float& ref, const float& fdb);
-
-    void reset();
+    void  setConfig(const Config& cfg) { cfg_ = cfg; }
+    void  reset();
 
     float getRef() const { return ref_; }
     float getOutput() const { return output_; }

@@ -29,25 +29,24 @@
 float PD::calc(const float& ref, const float& fdb)
 {
     cur_error_ = ref - fdb;
-    output_ = cfg_.Kp * cur_error_ + cfg_.Kd * (cur_error_ - prev_error_);
+    output_    = cfg_.Kp * cur_error_ + cfg_.Kd * (cur_error_ - prev_error_);
     if (output_ > cfg_.abs_output_max)
         output_ = cfg_.abs_output_max;
     if (output_ < -cfg_.abs_output_max)
         output_ = -cfg_.abs_output_max;
 
     prev_error_ = cur_error_;
-    ref_ = ref;
-    fdb_ = fdb;
+    ref_        = ref;
+    fdb_        = fdb;
 
     return output_;
 }
 
 void PD::reset()
 {
-    ref_ = 0.0f;
-    fdb_ = 0.0f;
-    cur_error_ = 0.0f;
+    ref_        = 0.0f;
+    fdb_        = 0.0f;
+    cur_error_  = 0.0f;
     prev_error_ = 0.0f;
-    output_ = 0.0f;
+    output_     = 0.0f;
 }
-

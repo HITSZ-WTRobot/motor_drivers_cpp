@@ -1,5 +1,5 @@
 /**
- * @file    pid_pd.h
+ * @file    pid_pd.hpp
  * @author  syhanjin
  * @date    2025-11-08
  * @brief   PD 控制器
@@ -32,15 +32,16 @@ class PD
 public:
     struct Config
     {
-        float Kp{0.0f};
-        float Kd{0.0f};
-        float abs_output_max{0.0f};
+        float Kp{ 0.0f };
+        float Kd{ 0.0f };
+        float abs_output_max{ 0.0f };
     };
 
     explicit PD(const Config& cfg) : cfg_(cfg) {}
 
     float calc(const float& ref, const float& fdb);
-    void reset();
+    void  setConfig(const Config& cfg) { cfg_ = cfg; }
+    void  reset();
 
     float getRef() const { return ref_; }
     float getOutput() const { return output_; }
@@ -48,12 +49,11 @@ public:
 private:
     Config cfg_;
 
-    float fdb_ = 0.0f;
-    float cur_error_ = 0.0f;
+    float fdb_        = 0.0f;
+    float cur_error_  = 0.0f;
     float prev_error_ = 0.0f;
-    float output_ = 0.0f;
-    float ref_ = 0.0f;
+    float output_     = 0.0f;
+    float ref_        = 0.0f;
 };
 
 #endif // PID_PD_HPP
-
