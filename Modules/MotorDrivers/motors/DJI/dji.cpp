@@ -214,8 +214,9 @@ void DJIMotor::SendIqCommand(CAN_HandleTypeDef* hcan, IqSetCMDGroup cmd_group)
     uint8_t iq_data[8] = {};
     for (size_t j = 0; j < 4; j++)
     {
-        DJIMotor* dji = m->motors[j + static_cast<size_t>(cmd_group)];
-        if (dji != nullptr)
+        const DJIMotor* dji = m->motors[j + static_cast<size_t>(cmd_group)];
+        // 只有受控的大疆电机才应该发送指令
+        if (dji != nullptr && dji->currentController() != nullptr)
         {
             const int16_t iq_cmd = dji->getIqCMD();
             iq_data[1 + j * 2]   = static_cast<uint8_t>(iq_cmd & 0xFF);      // 电流值低 8 位
