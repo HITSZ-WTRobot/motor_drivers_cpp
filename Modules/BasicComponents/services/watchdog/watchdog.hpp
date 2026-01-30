@@ -8,6 +8,7 @@
 #define WATCHDOG_HPP
 #include <atomic>
 #include <cstdint>
+#include <cstddef>
 
 namespace service
 {
@@ -30,7 +31,7 @@ public:
     static void EatAll();
 
 private:
-    std::atomic_int32_t snacks_;
+    std::atomic_int32_t snacks_{ 0 };
     uint32_t            id_;
 };
 
