@@ -82,7 +82,8 @@ list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 
 add_subdirectory(Modules/BasicComponents)
 add_subdirectory(Modules/MotorDrivers)
-add_subdirectory(Modules/PathPlannings)
+add_subdirectory(Modules/VelocityProfile)
+add_subdirectory(Modules/Trajectory)
 
 # =======================================================
 
